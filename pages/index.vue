@@ -1,3 +1,5 @@
 <template>
-  <h1>index</h1>
+  <v-card>
+    <SelectMonth></SelectMonth>
+  </v-card>
 </template>
