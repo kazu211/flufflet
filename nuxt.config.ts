@@ -2,6 +2,9 @@ import { defineNuxtConfig } from 'nuxt/config'
 import vuetify from 'vite-plugin-vuetify'
 
 export default defineNuxtConfig({
+  app: {
+    baseURL: '/flufflet/',
+  },
   build: {
     transpile: ['vuetify'],
   },
