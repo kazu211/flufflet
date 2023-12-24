@@ -3,7 +3,7 @@ import '~/utils/date-extensions';
 
 const date = ref(new Date());
 const dialog = ref(false);
-const month = ref(date.value.ym())
+const month = ref(date.value.ym());
 
 const saveDate = () => {
   month.value = date.value.ym()
@@ -89,6 +89,11 @@ const sampleItems = [
         <v-chip :color="getColor(value)">
           {{ value }}
         </v-chip>
+      </template>
+
+      <template v-slot:item.actions="{ item }">
+        <v-icon>mdi-pencil</v-icon>
+        <v-icon>mdi-delete</v-icon>
       </template>
     </v-data-table>
   </v-card>
