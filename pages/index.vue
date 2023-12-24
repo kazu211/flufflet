@@ -34,6 +34,6 @@ const saveDate = () => {
       </v-dialog>
     </v-card-title>
 
-    <transaction-table></transaction-table>
+    <monthly-table :month="month"></monthly-table>
   </v-card>
 </template>

@@ -12,16 +12,9 @@ const getColor = (type: TransactionType) => {
   }
 }
 
-const headers = [
-  { title: '日付', value: 'date', sortable: true },
-  { title: '種別', value: 'type', sortable: false },
-  { title: 'カテゴリ1', value: 'category1', sortable: false },
-  { title: 'カテゴリ2', value: 'category2', sortable: false },
-  { title: '金額', value: 'amount', sortable: true },
-  { title: 'タグ', value: 'tags', sortable: false },
-  { title: 'メモ', value: 'description', sortable: false },
-  { title: '操作', key: 'actions', sortable: false },
-]
+const props = defineProps<{
+  month: string
+}>()
 
 const sampleItems: Item[] = [
   {
@@ -40,7 +33,7 @@ const sampleItems: Item[] = [
     "type": "支出",
     "category1": "住宅",
     "category2": "光熱費",
-    "amount": 8559,
+    "amount": 18559,
     "tags": "",
     "description": ""
   },
@@ -55,11 +48,23 @@ const sampleItems: Item[] = [
     "description": ""
   },
 ]
+const items = ref(sampleItems);
+
+const headers = [
+  { title: '日付', value: 'date', sortable: true },
+  { title: '種別', value: 'type', sortable: false },
+  { title: 'カテゴリ1', value: 'category1', sortable: false },
+  { title: 'カテゴリ2', value: 'category2', sortable: false },
+  { title: '金額', value: 'amount', sortable: true },
+  { title: 'タグ', value: 'tags', sortable: false },
+  { title: 'メモ', value: 'description', sortable: false },
+  { title: '操作', key: 'actions', sortable: false },
+]
 
 </script>
 
 <template>
-  <v-data-table :headers="headers" :sort-by="[{ key: 'date' }]" :items="sampleItems">
+  <v-data-table :headers="headers" :sort-by="[{ key: 'date' }]" :items="items">
     <template v-slot:item.type="{ value }">
       <v-chip :color="getColor(value)">
         {{ value }}
