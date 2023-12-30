@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getItems } from '~/api/fludger';
-import type { TransactionType } from '~/types/types';
+import type { Item, TransactionType } from '~/types/types';
 
 const getColor = (type: TransactionType) => {
   switch (type) {
@@ -17,8 +17,8 @@ const props = defineProps<{
   month: string
 }>()
 
-const items = ref([]);
-const loading = ref(false);
+const items = ref<Item[]>([]);
+const loading = ref<boolean>(false);
 
 onMounted(async () => {
   loading.value = true;
