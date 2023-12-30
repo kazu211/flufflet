@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { Item, TransactionType } from '~/types/types';
+import { getItems } from '~/api/fludger';
+import type { TransactionType } from '~/types/types';
 
 const getColor = (type: TransactionType) => {
   switch (type) {
@@ -16,39 +17,20 @@ const props = defineProps<{
   month: string
 }>()
 
-const sampleItems: Item[] = [
-  {
-    "id": "001",
-    "date": "2023-09-02",
-    "type": "支出",
-    "category1": "食費",
-    "category2": "食費",
-    "amount": 5369,
-    "tags": "",
-    "description": ""
-  },
-  {
-    "id": "002",
-    "date": "2023-09-25",
-    "type": "支出",
-    "category1": "住宅",
-    "category2": "光熱費",
-    "amount": 18559,
-    "tags": "",
-    "description": ""
-  },
-  {
-    "id": "003",
-    "date": "2023-09-14",
-    "type": "収入",
-    "category1": "給与",
-    "category2": "給与",
-    "amount": 435522,
-    "tags": "",
-    "description": ""
-  },
-]
-const items = ref(sampleItems);
+const items = ref([]);
+const loading = ref(false);
+
+onMounted(async () => {
+  loading.value = true;
+  items.value = await getItems(props.month.split('-')[0], props.month.split('-')[1]);
+  loading.value = false;
+});
+
+watch(props, async () => {
+  loading.value = true;
+  items.value = await getItems(props.month.split('-')[0], props.month.split('-')[1]);
+  loading.value = false;
+});
 
 const headers = [
   { title: '日付', value: 'date', sortable: true },
@@ -64,7 +46,11 @@ const headers = [
 </script>
 
 <template>
-  <v-data-table :headers="headers" :sort-by="[{ key: 'date' }]" :items="items">
+  <v-data-table :loading="loading" :headers="headers" :sort-by="[{ key: 'date' }]" :items="items">
+    <template v-slot:loading>
+      <v-skeleton-loader></v-skeleton-loader>
+    </template>
+
     <template v-slot:item.type="{ value }">
       <v-chip :color="getColor(value)">
         {{ value }}
