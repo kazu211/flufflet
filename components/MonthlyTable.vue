@@ -17,8 +17,10 @@ const props = defineProps<{
   month: string
 }>()
 
+// TODO Map にして引き回せるようにする
 const items = ref<Item[]>([]);
 const loading = ref<boolean>(false);
+const register = ref<boolean>(false);
 
 onMounted(async () => {
   loading.value = true;
@@ -31,6 +33,10 @@ watch(props, async () => {
   items.value = await getItems(props.month.split('-')[0], props.month.split('-')[1]);
   loading.value = false;
 });
+
+const open = () => {
+  register.value = true;
+}
 
 const headers = [
   { title: '日付', value: 'date', sortable: true },
@@ -47,6 +53,15 @@ const headers = [
 
 <template>
   <v-data-table :loading="loading" :headers="headers" :sort-by="[{ key: 'date' }]" :items="items">
+    <template v-slot:top>
+      <v-toolbar color="surface">
+        <v-spacer></v-spacer>
+          <v-btn color="primary" v-bind="props" @click="open">
+            追加
+          </v-btn>
+      </v-toolbar>
+    </template>
+
     <template v-slot:loading>
       <v-skeleton-loader></v-skeleton-loader>
     </template>
@@ -62,4 +77,7 @@ const headers = [
       <v-icon>mdi-delete</v-icon>
     </template>
   </v-data-table>
+
+  <register-dialog :show="register" @save="register = false" @cancel="register = false"></register-dialog>
+
 </template>

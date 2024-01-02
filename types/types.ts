@@ -7,7 +7,7 @@ export const transactionTypeSchema = z.enum(["支出", "収入"]);
 export type TransactionType = z.infer<typeof transactionTypeSchema>;
 
 export const itemSchema = z.object({
-  id: z.string(),
+  id: idSchema,
   date: z.string(),
   type: transactionTypeSchema,
   category1: z.string(),
