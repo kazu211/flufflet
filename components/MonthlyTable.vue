@@ -34,6 +34,7 @@ const items = ref<Item[]>([]);
 const item = ref<Item>();
 const loading = ref<boolean>(false);
 const showRegister = ref<boolean>(false);
+const showDelete = ref<boolean>(false);
 
 onMounted(async () => {
   loading.value = true;
@@ -41,26 +42,39 @@ onMounted(async () => {
   loading.value = false;
 });
 
-watch(props, async () => {
+watch(() => props.month, async () => {
   loading.value = true;
   items.value = await getItems(props.month.split('-')[0], props.month.split('-')[1]);
   loading.value = false;
 });
 
-const register = (target?: Item) => {
-  item.value = target
+const registerItem = (value?: Item) => {
+  item.value = value;
   showRegister.value = true;
 }
 
-const save = (target: Item) => {
-  const index = items.value.findIndex(v => v.id === target.id);
+const saveRegisterItem = (value: Item) => {
+  // FIXME: 表示月以外も追加するため修正が必要
+  const index = items.value.findIndex(v => v.id === value.id);
   if (index !== -1) {
-    items.value[index] = target;
+    items.value[index] = value;
   } else {
-    items.value.push(target);
+    items.value.push(value);
   }
 
   showRegister.value = false;
+}
+
+const deleteItem = (value: Item) => {
+  item.value = value;
+  showDelete.value = true;
+}
+
+const saveDeleteItem = (value: Item) => {
+  const filteredItems = items.value.filter(v => v.id !== value.id);
+  items.value = filteredItems;
+
+  showDelete.value = false;
 }
 
 </script>
@@ -70,7 +84,7 @@ const save = (target: Item) => {
     <template v-slot:top>
       <v-toolbar color="surface">
         <v-spacer></v-spacer>
-          <v-btn color="primary" v-bind="props" @click="register()">
+          <v-btn color="primary" v-bind="props" @click="registerItem()">
             追加
           </v-btn>
       </v-toolbar>
@@ -87,10 +101,11 @@ const save = (target: Item) => {
     </template>
 
     <template v-slot:item.actions="{ item }">
-      <v-icon @click="register(item)">mdi-pencil</v-icon>
-      <v-icon>mdi-delete</v-icon>
+      <v-icon @click="registerItem(item)">mdi-pencil</v-icon>
+      <v-icon @click="deleteItem(item)">mdi-delete</v-icon>
     </template>
   </v-data-table>
-  <register-dialog :show="showRegister" :item="item" @save="save" @cancel="showRegister = false"></register-dialog>
+  <register-dialog :show="showRegister" :item="item" @save="saveRegisterItem" @cancel="showRegister = false"></register-dialog>
+  <delete-dialog :show="showDelete" :item="item!!" @save="saveDeleteItem" @cancel="showDelete = false"></delete-dialog>
 
 </template>
