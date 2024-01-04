@@ -6,46 +6,47 @@ interface Props {
   show: boolean
   item?: Item
 }
-const props = defineProps<Props>()
+
+const props = withDefaults(defineProps<Props>(), {
+  item: () => ({
+    id: "",
+    date: "",
+    type: "支出",
+    category1: "",
+    category2: "",
+    amount: 0,
+    tags: "",
+    description: ""
+  })
+})
 
 const emits = defineEmits<{
-  (e: 'save', item: Item): void
-  (e: 'cancel'): void
+  save: [item: Item]
+  cancel: []
 }>()
-
-const today = new Date();
 
 const loading = ref<boolean>(false);
 const snackbar = ref<boolean>(false);
 const message = ref<string>("");
+const item = ref<Item>({ ...props.item })
 
-const item = ref<Item>({
-  id: "",
-  date: today.ym(),
-  type: "支出",
-  category1: "",
-  category2: "",
-  amount: 0,
-  tags: "",
-  description: ""
-})
-
-watch(props, () => {
-  if (props.show === true) {
-    item.value.id = props.item?.id ?? "";
-    item.value.date = props.item?.date ?? today.ym();
-    item.value.type = props.item?.type ?? "支出";
-    item.value.category1 = props.item?.category1 ?? "";
-    item.value.category2 = props.item?.category2 ?? "";
-    item.value.amount = props.item?.amount ?? 0;
-    item.value.tags = props.item?.tags ?? "";
-    item.value.description = props.item?.description ?? "";
+watch(() => props.show, () => {
+  if (props.show) {
+    item.value.id = props.item.id;
+    item.value.date = props.item.date;
+    item.value.type = props.item.type;
+    item.value.category1 = props.item.category1;
+    item.value.category2 = props.item.category2;
+    item.value.amount = props.item.amount;
+    item.value.tags = props.item.tags;
+    item.value.description = props.item.description;
   }
 });
 
 const save = async (item: Item) => {
   loading.value = true
-  const response = props.item == null ? await postItem(item) : await putItem(item);
+  // id の有無で新規/更新を判定する
+  const response = props.item.id === "" ? await postItem(item) : await putItem(item);
   loading.value = false
   if ('id' in response) {
     emits('save', response)
@@ -71,7 +72,7 @@ const isNumber = (value: any): boolean | string => {
 <template>
   <v-dialog v-model="props.show" scrollable>
     <v-card>
-      <v-card-title>{{ props.item == null ? "入力" : "編集" }}</v-card-title>
+      <v-card-title>{{ item.id === "" ? "データ入力" : "データ編集" }}</v-card-title>
       <v-card-text>
         <v-form>
           <v-btn-toggle v-model="item.type" color="primary">
@@ -91,7 +92,7 @@ const isNumber = (value: any): boolean | string => {
           <v-text-field v-model="item.description" color="primary" label="メモ"></v-text-field>
 
           <v-btn @click="save(item)" :loading="loading">保存</v-btn>
-          <v-btn @click="cancel()">キャンセル</v-btn>
+          <v-btn @click="cancel()" :disabled="loading">キャンセル</v-btn>
 
         </v-form>
       </v-card-text>

@@ -1,5 +1,17 @@
 import { z } from "zod";
 
+export const yearSchema = z.string().regex(/[0-9]{4}/);
+export type Year = z.infer<typeof yearSchema>;
+
+export const monthSchema = z.string().regex(/[0-9]{2}/);
+export type Month = z.infer<typeof monthSchema>;
+
+export const getRequestSchema = z.object({
+  year: yearSchema,
+  month: monthSchema.optional(),
+})
+export type GetRequest = z.infer<typeof getRequestSchema>;
+
 export const idSchema = z.string();
 export type Id = z.infer<typeof idSchema>;
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { DeleteResponse, GetResponse, Id, Item, PostResponse, PutResponse } from '~/types/types';
+import type { DeleteResponse, GetResponse, Id, Item, Month, PostResponse, PutResponse, Year } from '~/types/types';
 
 const fludger = axios.create({
   baseURL: 'https://script.google.com/macros/s/xxxxx/exec',
@@ -8,7 +8,7 @@ const fludger = axios.create({
 
 const token = 'xxxxx'
 
-export const getItems = async (year: string, month?: string): Promise<GetResponse> => {
+export const getItems = async (year: Year, month?: Month): Promise<GetResponse> => {
   const response = await fludger.post<GetResponse>(
     '',
     `{"method":"GET","authToken":"${token}","params":{"year":"${year}","month":"${month}"}}`
