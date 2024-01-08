@@ -1,17 +1,20 @@
 <script setup lang="ts">
+import { useLoginUser } from '@/composables/states';
+
+const user = useLoginUser()
+
 const visible = ref(false);
-const user = ref('');
+const id = ref('');
 const token = ref('');
 
 onMounted(() => {
-  user.value = localStorage.getItem('id') ?? '';
-  token.value = localStorage.getItem('token') ?? '';
+  id.value = user.id
+  token.value = user.token
 })
 
 const onClickSave = () => {
   // TODO 疎通確認処理を実装する
-  localStorage.setItem('id', user.value);
-  localStorage.setItem('token', token.value);
+  user.setUser(id.value, token.value)
 }
 </script>
 
@@ -21,8 +24,8 @@ const onClickSave = () => {
 
     <v-card-text>
       <v-text-field
-        v-model="user"
-        placeholder="User"
+        v-model="id"
+        placeholder="UserId"
         prepend-inner-icon="mdi-account"
         variant="outlined"
       ></v-text-field>

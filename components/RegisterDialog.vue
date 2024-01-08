@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { postItem, putItem } from '~/api/fludger';
+import { useLoginUser } from '@/composables/states';
 import { type Item } from '~/types/types';
+
+const { postItem, putItem } = useLoginUser()
 
 interface Props {
   show: boolean

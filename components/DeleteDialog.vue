@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { deleteItem } from '~/api/fludger';
+import { useLoginUser } from '@/composables/states';
 import type { Item } from '~/types/types';
+
+const { deleteItem } = useLoginUser()
 
 interface Props {
   show: boolean

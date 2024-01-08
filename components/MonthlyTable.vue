@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { getItems } from '~/api/fludger';
+import { useLoginUser } from '@/composables/states';
 import type { Item, TransactionType } from '~/types/types';
+
+const { getItems } = useLoginUser()
 
 const props = defineProps<{
   month: string
