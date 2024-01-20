@@ -17,7 +17,6 @@ const props = withDefaults(defineProps<Props>(), {
     category1: "",
     category2: "",
     amount: 0,
-    tags: "",
     description: ""
   })
 })
@@ -40,7 +39,6 @@ watch(() => props.show, () => {
     item.value.category1 = props.item.category1;
     item.value.category2 = props.item.category2;
     item.value.amount = props.item.amount;
-    item.value.tags = props.item.tags;
     item.value.description = props.item.description;
   }
 });
@@ -88,8 +86,6 @@ const isNumber = (value: any): boolean | string => {
 
           <v-text-field v-model="item.category1" color="primary" label="カテゴリー1"></v-text-field>
           <v-text-field v-model="item.category2" color="primary" label="カテゴリー2"></v-text-field>
-
-          <v-text-field v-model="item.tags" color="primary" label="タグ"></v-text-field>
 
           <v-text-field v-model="item.description" color="primary" label="メモ"></v-text-field>
 

@@ -21,8 +21,8 @@ export const useLoginUser = defineStore('user', () => {
     return api.value.postItem(item)
   }
 
-  const deleteItem = async (id: Id): Promise<DeleteResponse> => {
-    return api.value.deleteItem(id)
+  const deleteItem = async (item: Item): Promise<DeleteResponse> => {
+    return api.value.deleteItem(item)
   }
 
   const putItem = async (item: Item): Promise<PutResponse> => {

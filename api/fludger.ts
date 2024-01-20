@@ -17,36 +17,37 @@ export class Fludger {
   async getItem(year: Year, month?: Month): Promise<GetResponse> {
     const response = await axios.post<GetResponse>(
       this.url,
-      `{"method":"GET","authToken":"${this.token}","params":{"year":"${year}","month":"${month}"}}`,
+      `{"method":"GET","path":"/items","authToken":"${this.token}","params":{"year":"${year}","month":"${month}"}}`,
       { headers: { 'content-type': 'application/x-www-form-urlencoded' } }
     )
     return response.data
   }
 
   async postItem(item: Item): Promise<PostResponse> {
-    const { id, date, type, category1, category2, amount, tags, description } = item;
+    const { id, date, type, category1, category2, amount, description } = item;
     const response = await axios.post<PostResponse>(
       this.url,
-      `{"method":"POST","authToken":"${this.token}","params":{"item":{"id":"${id}","date":"${date}","type":"${type}","category1":"${category1}","category2":"${category2}","amount":${amount},"tags":"${tags}","description":"${description}"}}}`,
+      `{"method":"POST","path":"/items","authToken":"${this.token}","params":{"item":{"id":"${id}","date":"${date}","type":"${type}","category1":"${category1}","category2":"${category2}","amount":${amount},"description":"${description}"}}}`,
       { headers: { 'content-type': 'application/x-www-form-urlencoded' } }
     )
     return response.data
   }
 
-  async deleteItem(id: Id): Promise<DeleteResponse> {
+  async deleteItem(item: Item): Promise<DeleteResponse> {
+    const { id, date, type, category1, category2, amount, description } = item;
     const response = await axios.post<DeleteResponse>(
       this.url,
-      `{"method":"DELETE","authToken":"${this.token}","params":{"id":"${id}"}}`,
+      `{"method":"DELETE","path":"/items","authToken":"${this.token}","params":{"item":{"id":"${id}","date":"${date}","type":"${type}","category1":"${category1}","category2":"${category2}","amount":${amount},"description":"${description}"}}}`,
       { headers: { 'content-type': 'application/x-www-form-urlencoded' } }
     )
     return response.data
   }
 
   async putItem(item: Item): Promise<PutResponse> {
-    const { id, date, type, category1, category2, amount, tags, description } = item;
+    const { id, date, type, category1, category2, amount, description } = item;
     const response = await axios.post<PutResponse>(
       this.url,
-      `{"method":"PUT","authToken":"${this.token}","params":{"item":{"id":"${id}","date":"${date}","type":"${type}","category1":"${category1}","category2":"${category2}","amount":${amount},"tags":"${tags}","description":"${description}"}}}`
+      `{"method":"PUT","path":"/items","authToken":"${this.token}","params":{"item":{"id":"${id}","date":"${date}","type":"${type}","category1":"${category1}","category2":"${category2}","amount":${amount},"description":"${description}"}}}`
     )
     return response.data
   }

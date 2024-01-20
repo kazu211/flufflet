@@ -29,16 +29,15 @@ watch(() => props.show, () => {
     item.value.category1 = props.item.category1;
     item.value.category2 = props.item.category2;
     item.value.amount = props.item.amount;
-    item.value.tags = props.item.tags;
     item.value.description = props.item.description;
   }
 });
 
 const save = async (item: Item) => {
   loading.value = true
-  const response = await deleteItem(item.id);
+  const response = await deleteItem(item);
   loading.value = false
-  if (response.info !== null) {
+  if ('id' in response) {
     emits('save', item)
   } else {
     console.log(response);

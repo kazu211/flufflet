@@ -14,7 +14,6 @@ const headers = [
   { title: 'カテゴリ1', value: 'category1', sortable: false },
   { title: 'カテゴリ2', value: 'category2', sortable: false },
   { title: '金額', value: 'amount', sortable: true },
-  { title: 'タグ', value: 'tags', sortable: false },
   { title: 'メモ', value: 'description', sortable: false },
   { title: '操作', key: 'actions', sortable: false },
 ]
