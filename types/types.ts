@@ -29,19 +29,29 @@ export const itemSchema = z.object({
 });
 export type Item = z.infer<typeof itemSchema>;
 
+export const CategorySchema = z.object({
+  type: transactionTypeSchema,
+  category1: z.string(),
+  category2: z.string(),
+});
+export type Category = z.infer<typeof CategorySchema>
+
 export const messageSchema = z.object({
   error: z.string(),
 });
 export type Message = z.infer<typeof messageSchema>;
 
-export const getResponseSchema = z.array(itemSchema);
-export type GetResponse = z.infer<typeof getResponseSchema>;
+export const getItemsResponseSchema = z.array(itemSchema);
+export type GetItemsResponse = z.infer<typeof getItemsResponseSchema>;
 
-export const postResponseSchema = itemSchema.or(messageSchema);
-export type PostResponse = z.infer<typeof postResponseSchema>;
+export const postItemsResponseSchema = itemSchema.or(messageSchema);
+export type PostItemsResponse = z.infer<typeof postItemsResponseSchema>;
 
-export const deleteResponseSchema = itemSchema.or(messageSchema);
-export type DeleteResponse = z.infer<typeof deleteResponseSchema>;
+export const deleteItemsResponseSchema = itemSchema.or(messageSchema);
+export type DeleteItemsResponse = z.infer<typeof deleteItemsResponseSchema>;
 
-export const putResponseSchema = itemSchema.or(messageSchema);
-export type PutResponse = z.infer<typeof putResponseSchema>;
+export const putItemsResponseSchema = itemSchema.or(messageSchema);
+export type PutItemsResponse = z.infer<typeof putItemsResponseSchema>;
+
+export const getCategoriesResponseSchema = z.array(CategorySchema);
+export type GetCategoriesResponse = z.infer<typeof getCategoriesResponseSchema>;

@@ -6,31 +6,47 @@ const user = useLoginUser()
 const visible = ref(false);
 const id = ref('');
 const token = ref('');
+const loading = ref(false);
 
 onMounted(() => {
   id.value = user.id
   token.value = user.token
 })
 
-const onClickSave = () => {
+const save = async () => {
   // TODO 疎通確認処理を実装する
-  user.setUser(id.value, token.value)
+  loading.value = true
+  await user.setUser(id.value, token.value)
+  loading.value = false
+
+  if (!user.auth) {
+    console.log("ログインできませんでした")
+  } else {
+    console.log("ログインできました")
+  }
+}
+
+const required = (v: string): boolean | string => {
+  return !!v || "必須項目です"
 }
 </script>
 
 <template>
   <v-card class="mx-auto px-6 py-6" max-width="400">
-    <v-card-title>設定</v-card-title>
 
     <v-card-text>
       <v-text-field
         v-model="id"
+        :readonly="loading"
+        :rules="[required]"
         placeholder="UserId"
         prepend-inner-icon="mdi-account"
         variant="outlined"
       ></v-text-field>
       <v-text-field
         v-model="token"
+        :readonly="loading"
+        :rules="[required]"
         placeholder="token"
         :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
         :type="visible ? 'text' : 'password'"
@@ -42,14 +58,15 @@ const onClickSave = () => {
 
     <v-card-actions>
       <v-btn
+        :loading="loading"
         block
         class="mb-8"
         color="info"
         size="large"
         variant="tonal"
-        @click="onClickSave"
+        @click="save"
       >
-        保存
+        サインイン
       </v-btn>
     </v-card-actions>
   </v-card>
