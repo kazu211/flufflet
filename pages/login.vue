@@ -7,6 +7,8 @@ const visible = ref(false);
 const id = ref('');
 const token = ref('');
 const loading = ref(false);
+const snackbar = ref(false);
+const message = ref("");
 
 onMounted(() => {
   id.value = user.id
@@ -14,15 +16,13 @@ onMounted(() => {
 })
 
 const save = async () => {
-  // TODO 疎通確認処理を実装する
   loading.value = true
   await user.setUser(id.value, token.value)
   loading.value = false
 
   if (!user.auth) {
-    console.log("ログインできませんでした")
-  } else {
-    console.log("ログインできました")
+    snackbar.value = true
+    message.value = "サインインに失敗しました"
   }
 }
 
@@ -33,7 +33,6 @@ const required = (v: string): boolean | string => {
 
 <template>
   <v-card class="mx-auto px-6 py-6" max-width="400">
-
     <v-card-text>
       <v-text-field
         v-model="id"
@@ -70,4 +69,7 @@ const required = (v: string): boolean | string => {
       </v-btn>
     </v-card-actions>
   </v-card>
+
+  <v-snackbar v-model="snackbar" timeout="5000">{{ message }}</v-snackbar>
+
 </template>

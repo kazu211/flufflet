@@ -12,6 +12,10 @@ export const useLoginUser = defineStore('user', () => {
     token.value = userToken
     api.value = Fludger.create(userId, userToken)
     auth.value = await api.value.authenticate()
+
+    if (auth.value) {
+      navigateTo('/')
+    }
   }
 
   const getCategories = async (): Promise<GetCategoriesResponse> => {
