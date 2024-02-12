@@ -21,6 +21,7 @@ export default defineNuxtConfig({
       'process.env.DEBUG': false,
     },
   },
+  srcDir: "src",
   modules: ['@pinia/nuxt'],
   css: ['@/assets/main.scss'],
 })
