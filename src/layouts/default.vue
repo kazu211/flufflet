@@ -1,10 +1,16 @@
+<script setup lang="ts">
+
+const user = useLoginUser()
+
+</script>
+
 <template>
   <v-app>
     <v-app-bar scroll-behavior="hide" color="primary">
       <v-toolbar-title class="title">Flufflet</v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn @click="navigateTo('/')" icon="mdi-table"></v-btn>
-      <v-btn @click="navigateTo('/settings')" icon="mdi-cog"></v-btn>
+      <template v-slot:append v-if="user.auth">
+        <v-btn @click="user.logout" icon="mdi-logout"></v-btn>
+      </template>
     </v-app-bar>
 
     <v-main>
@@ -15,16 +21,6 @@
 
 </v-app>
 </template>
-
-<script>
-export default {
-  methods: {
-    navigateTo(path) {
-      this.$router.push(path);
-    },
-  },
-};
-</script>
 
 <style scoped>
 .title {
