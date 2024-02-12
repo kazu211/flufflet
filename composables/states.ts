@@ -6,18 +6,27 @@ export const useLoginUser = defineStore('user', () => {
   const token = ref('')
   const api = ref(Fludger.create(id.value, token.value))
   const auth = ref(false)
-  const categories = ref<Category[]>()
+  const categories = ref<Category[]>([])
 
-  const setUser = async (userId: string, userToken: string) => {
+  const login = async (userId: string, userToken: string) => {
     id.value = userId
     token.value = userToken
     api.value = Fludger.create(userId, userToken)
-    auth.value = await api.value.authenticate()
+    const authenticate = await api.value.authenticate()
 
-    if (auth.value) {
+    if (authenticate) {
       categories.value = await api.value.getCategories()
+      auth.value = authenticate
       navigateTo('/')
     }
+  }
+
+  const logout = () => {
+    id.value = ''
+    token.value = ''
+    auth.value = false
+    categories.value = []
+    navigateTo('/login')
   }
 
   const getItems = async (year: Year, month?: Month): Promise<GetItemsResponse> => {
@@ -36,5 +45,5 @@ export const useLoginUser = defineStore('user', () => {
     return api.value.putItem(item)
   }
 
-  return { id, token, auth, categories, setUser, getItems, postItem, deleteItem, putItem }
+  return { id, token, auth, categories, login, logout, getItems, postItem, deleteItem, putItem }
 })

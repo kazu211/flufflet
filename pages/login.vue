@@ -17,7 +17,7 @@ onMounted(() => {
 
 const save = async () => {
   loading.value = true
-  await user.setUser(id.value, token.value)
+  await user.login(id.value, token.value)
   loading.value = false
 
   if (!user.auth) {

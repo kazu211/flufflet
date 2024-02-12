@@ -9,7 +9,7 @@ const user = useLoginUser()
     <v-app-bar scroll-behavior="hide" color="primary">
       <v-toolbar-title class="title">Flufflet</v-toolbar-title>
       <template v-slot:append v-if="user.auth">
-        <v-btn @click="navigateTo('/')" icon="mdi-table"></v-btn>
+        <v-btn @click="user.logout" icon="mdi-logout"></v-btn>
       </template>
     </v-app-bar>
 
