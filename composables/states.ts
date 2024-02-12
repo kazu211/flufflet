@@ -1,11 +1,12 @@
 import { Fludger } from "~/api/fludger"
-import type { DeleteItemsResponse, GetCategoriesResponse, GetItemsResponse, Item, Month, PostItemsResponse, PutItemsResponse, Year } from "~/types/types"
+import type { Category, DeleteItemsResponse, GetItemsResponse, Item, Month, PostItemsResponse, PutItemsResponse, Year } from "~/types/types"
 
 export const useLoginUser = defineStore('user', () => {
   const id = ref('')
   const token = ref('')
   const api = ref(Fludger.create(id.value, token.value))
   const auth = ref(false)
+  const categories = ref<Category[]>()
 
   const setUser = async (userId: string, userToken: string) => {
     id.value = userId
@@ -14,12 +15,9 @@ export const useLoginUser = defineStore('user', () => {
     auth.value = await api.value.authenticate()
 
     if (auth.value) {
+      categories.value = await api.value.getCategories()
       navigateTo('/')
     }
-  }
-
-  const getCategories = async (): Promise<GetCategoriesResponse> => {
-    return api.value.getCategories()
   }
 
   const getItems = async (year: Year, month?: Month): Promise<GetItemsResponse> => {
@@ -38,5 +36,5 @@ export const useLoginUser = defineStore('user', () => {
     return api.value.putItem(item)
   }
 
-  return { id, token, auth, setUser, getCategories, getItems, postItem, deleteItem, putItem }
+  return { id, token, auth, categories, setUser, getItems, postItem, deleteItem, putItem }
 })

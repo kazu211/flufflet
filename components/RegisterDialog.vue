@@ -2,7 +2,7 @@
 import { useLoginUser } from '@/composables/states';
 import { type Item } from '~/types/types';
 
-const { postItem, putItem } = useLoginUser()
+const { categories, postItem, putItem } = useLoginUser()
 
 interface Props {
   show: boolean
@@ -30,6 +30,8 @@ const loading = ref<boolean>(false);
 const snackbar = ref<boolean>(false);
 const message = ref<string>("");
 const item = ref<Item>({ ...props.item })
+const categories1 = ref<string[]>([])
+const categories2 = ref<string[]>([])
 
 watch(() => props.show, () => {
   if (props.show) {
@@ -42,6 +44,21 @@ watch(() => props.show, () => {
     item.value.description = props.item.description;
   }
 });
+
+watch([() => item.value.type, () => props.show], ([type, x], [y, oldShow]) => {
+  if (oldShow) {
+    item.value.category1 = ""
+  }
+  categories1.value = Array.from(new Set(categories!!.filter(v => v.type === type).map(v => v.category1)))
+  categories2.value = []
+})
+
+watch([() => item.value.category1, () => props.show], ([category1, x], [y, oldShow]) => {
+  if (oldShow) {
+    item.value.category2 = ""
+  }
+  categories2.value = Array.from(new Set(categories!!.filter(v => v.category1 === category1).map(v => v.category2)))
+})
 
 const save = async (item: Item) => {
   loading.value = true
@@ -84,8 +101,8 @@ const isNumber = (value: any): boolean | string => {
 
           <v-text-field v-model="item.date" color="primary" prepend-inner-icon="mdi-calendar"></v-text-field>
 
-          <v-text-field v-model="item.category1" color="primary" label="カテゴリー1"></v-text-field>
-          <v-text-field v-model="item.category2" color="primary" label="カテゴリー2"></v-text-field>
+          <v-select v-model="item.category1" :items="categories1" color="primary" label="カテゴリー1"></v-select>
+          <v-select v-model="item.category2" :items="categories2" color="primary" label="カテゴリー2"></v-select>
 
           <v-text-field v-model="item.description" color="primary" label="メモ"></v-text-field>
 
