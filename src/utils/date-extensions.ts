@@ -5,6 +5,7 @@ export { };
 declare global {
   interface Date {
       ym(): string;
+      ymj(): string;
       ymo(): GetRequest;
       ymd(): string;
   }
@@ -12,6 +13,10 @@ declare global {
 
 Date.prototype.ym = function () {
   return `${this.getFullYear()}-${('0' +(this.getMonth() + 1)).slice(-2)}`
+};
+
+Date.prototype.ymj = function () {
+  return `${this.getFullYear()}年${('0' +(this.getMonth() + 1)).slice(-2)}月`
 };
 
 Date.prototype.ymd = function() {
