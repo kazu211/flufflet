@@ -12,7 +12,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   item: () => ({
     id: "",
-    date: "",
+    date: new Date().ymd(),
     type: "支出",
     category1: "",
     category2: "",
