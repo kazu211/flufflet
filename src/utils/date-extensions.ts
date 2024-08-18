@@ -20,7 +20,7 @@ Date.prototype.ymj = function () {
 };
 
 Date.prototype.ymd = function() {
-  return `${this.getFullYear()}-${('0' +(this.getMonth() + 1)).slice(-2)}-${('0' +(this.getDay())).slice(-2)}`
+  return `${this.getFullYear()}-${('0' +(this.getMonth() + 1)).slice(-2)}-${('0' +(this.getDate())).slice(-2)}`
 }
 
 Date.prototype.ymo = function() {
