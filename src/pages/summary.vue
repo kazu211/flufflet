@@ -23,7 +23,7 @@ onMounted(async () => {
   // loading.value = false;
 });
 
-watch(() => date, async () => {
+watch(() => month.value, async () => {
   // loading.value = true;
   const { year, month } = date.value.ymo();
   items.value = await getItems(year, month);
@@ -49,20 +49,22 @@ watch(() => date, async () => {
         <v-card elevation="0">
           <v-card-title>支出</v-card-title>
           <v-card-text>
-            <circle-graph></circle-graph>
+            <circle-graph :items="items.filter(v => v.type=='支出')"></circle-graph>
           </v-card-text>
         </v-card>
       </v-col>
       <v-col>
         <v-card elevation="0">
           <v-card-title>収入</v-card-title>
-          <v-card-text>bbb</v-card-text>
+          <v-card-text>
+            <circle-graph :items="items.filter(v => v.type=='収入')"></circle-graph>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
       <v-card elevation="0">
         <v-card-title>年間収支</v-card-title>
-        <v-card-text>ccc</v-card-text>
+        <v-card-text>未実装</v-card-text>
       </v-card>
   </v-card>
 </template>
