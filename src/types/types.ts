@@ -30,9 +30,11 @@ export const itemSchema = z.object({
 export type Item = z.infer<typeof itemSchema>;
 
 export const CategorySchema = z.object({
+  id: z.string(),
   type: transactionTypeSchema,
   category1: z.string(),
   category2: z.string(),
+  color: z.string(),
 });
 export type Category = z.infer<typeof CategorySchema>
 
