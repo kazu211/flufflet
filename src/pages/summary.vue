@@ -49,7 +49,7 @@ watch(() => month.value, async () => {
         <v-card elevation="0">
           <v-card-title>支出</v-card-title>
           <v-card-text>
-            <circle-graph :items="items.filter(v => v.type=='支出')"></circle-graph>
+            <circle-graph :items="items.filter(v => v.type=='支出')" :categories="categories.filter(v => v.type=='支出')"></circle-graph>
           </v-card-text>
         </v-card>
       </v-col>
@@ -57,7 +57,7 @@ watch(() => month.value, async () => {
         <v-card elevation="0">
           <v-card-title>収入</v-card-title>
           <v-card-text>
-            <circle-graph :items="items.filter(v => v.type=='収入')"></circle-graph>
+            <circle-graph :items="items.filter(v => v.type=='収入')" :categories="categories.filter(v => v.type=='収入')"></circle-graph>
           </v-card-text>
         </v-card>
       </v-col>
