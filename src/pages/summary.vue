@@ -49,23 +49,43 @@ watch(() => month.value, async () => {
         <v-card elevation="0">
           <v-card-title>支出</v-card-title>
           <v-card-text>
-            <circle-graph :items="items.filter(v => v.type=='支出')" :categories="categories.filter(v => v.type=='支出')"></circle-graph>
+            <group-table :items="items.filter(v => v.type=='支出')" :categories="categories.filter(v => v.type=='支出')"></group-table>
           </v-card-text>
         </v-card>
       </v-col>
       <v-col>
         <v-card elevation="0">
+          <v-card-title>割合</v-card-title>
+          <v-card-text>
+            <circle-graph :items="items.filter(v => v.type=='支出')" :categories="categories.filter(v => v.type=='支出')"></circle-graph>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col>
+        <v-card elevation="0">
           <v-card-title>収入</v-card-title>
+          <v-card-text>
+            <group-table :items="items.filter(v => v.type=='収入')" :categories="categories.filter(v => v.type=='収入')"></group-table>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-card elevation="0">
+          <v-card-title>割合</v-card-title>
           <v-card-text>
             <circle-graph :items="items.filter(v => v.type=='収入')" :categories="categories.filter(v => v.type=='収入')"></circle-graph>
           </v-card-text>
         </v-card>
       </v-col>
     </v-row>
+    <v-row>
       <v-card elevation="0">
         <v-card-title>年間収支</v-card-title>
         <v-card-text>未実装</v-card-text>
       </v-card>
+    </v-row>
   </v-card>
 </template>
 
